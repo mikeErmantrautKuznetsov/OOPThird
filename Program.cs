@@ -8,25 +8,17 @@ namespace OOPThird3
 {
     class DateBase
     {
-        Player playerDate = new Player();
+        public Player playerDate = new Player();
         Dictionary<int, Player> players = new Dictionary<int, Player>();
-        Random rand = new Random();
 
         public void AddPlayer()
         {
-            Console.WriteLine("Введите имя пользователя:");
-            playerDate.namePlayer = Console.ReadLine();
-
-            playerDate.levelPlayer = rand.Next(1, 100);
-            playerDate.playerID = rand.Next(111111, 999999);
-            playerDate.playerIndex = rand.Next(1, 100);
-
-            players.Add(playerDate.playerIndex, new Player()
+            players.Add(playerDate.PlayerIndex, new Player()
             {
-                namePlayer = playerDate.namePlayer,
-                levelPlayer = playerDate.levelPlayer,
-                isPlaying = false,
-                playerID = playerDate.playerID
+                NamePlayer = playerDate.NamePlayer,
+                LevelPlayer = playerDate.LevelPlayer,
+                IsPlaying = false,
+                PlayerID = playerDate.PlayerID
             });
 
             Console.WriteLine("Игрок добавлен в список.");
@@ -42,9 +34,9 @@ namespace OOPThird3
             int specialNumber = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine();
             foreach (var player in players.Values)
-                if (specialNumber == player.playerIndex || specialNumber == player.playerID)       // Не знаю как здесь исключить повторяющийся код!!
+                if (specialNumber == player.PlayerIndex || specialNumber == player.PlayerID)       // Не знаю как здесь исключить повторяющийся код!!
                 {
-                    player.isPlaying = true;
+                    player.IsPlaying = true;
                 }
 
             Console.WriteLine("Игрок забанин.");
@@ -59,9 +51,9 @@ namespace OOPThird3
             int specialNumber = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine();
             foreach (var player in players.Values)
-                if (specialNumber == player.playerIndex || specialNumber == player.playerID)   // Не знаю как здесь исключить повторяющийся код!!
+                if (specialNumber == player.PlayerIndex || specialNumber == player.PlayerID)   // Не знаю как здесь исключить повторяющийся код!!
                 {
-                    player.isPlaying = false;
+                    player.IsPlaying = false;
                 }
 
             Console.WriteLine("Игрок разбанин.");
@@ -86,36 +78,34 @@ namespace OOPThird3
             PlayerBusting();
         }
 
-        private void PlayerBusting()
+        void PlayerBusting()
         {
             foreach (KeyValuePair<int, Player> player in players)
             {
                 Console.WriteLine($"Индекс: {player.Key}.\n " +
-                    $"Имя игрока: {player.Value.namePlayer}.\n " +
-                    $"Уровень игрока: {player.Value.levelPlayer}.\n " +
-                    $"Заблокирован: {player.Value.isPlaying}.\n " +
-                    $"Индивидуальный номер: {player.Value.playerID}.");
+                    $"Имя игрока: {player.Value.NamePlayer}.\n " +
+                    $"Уровень игрока: {player.Value.LevelPlayer}.\n " +
+                    $"Заблокирован: {player.Value.IsPlaying}.\n " +
+                    $"Индивидуальный номер: {player.Value.PlayerID}.");
             }
         }
     }
 
     class Player
     {
-        public string namePlayer { get; set; }
+        private string namePlayer;
 
-        public int levelPlayer { get; set; }
-        public int playerID { get; set; }
-        public int playerIndex { get; set; }
+        private int levelPlayer;
+        private int playerID;
+        private int playerIndex;
 
-        public bool isPlaying { get; set; }
+        private bool isPlaying;
 
-        public Player()
-        {
-            this.namePlayer = namePlayer;
-            this.levelPlayer = levelPlayer;
-            this.playerID = playerID;
-            this.isPlaying = isPlaying;
-        }
+        public string NamePlayer { get { return namePlayer; } set { namePlayer = value; } }
+        public int LevelPlayer { get { return levelPlayer; } set { levelPlayer = value; } }
+        public int PlayerID { get { return playerID; } set { playerID = value; } }
+        public int PlayerIndex { get { return playerIndex; } set { playerIndex = value; } }
+        public bool IsPlaying { get { return isPlaying; } set { isPlaying = value; } }
     }
 
 
@@ -124,9 +114,9 @@ namespace OOPThird3
         static void Main(string[] args)
         {
             DateBase dateBase = new DateBase();
-            Console.WriteLine("Выберите команду: \nДобавить игрока: 1. \nУдалить игрока: 2. \nЗабанить игрока: 3. " +
-                "\nРазбанить игрока: 4. \nВывод всех игроков: 5.");
+            Random rand = new Random();
 
+            Console.WriteLine("Команда: \nДобавить игрока - 1. \nУдалить игрока - 2. \nЗабанить игрока - 3. \nРазбанить игрока - 4. \nВыход из программы - 5. \nВывод списка игрока - 6.");
 
             while (true)
             {
@@ -136,6 +126,13 @@ namespace OOPThird3
                     switch (_choiceNumber)
                     {
                         case (int)ResultChoice.AddPlayer:
+                            Console.WriteLine("Введите имя пользователя:");
+                            dateBase.playerDate.NamePlayer = Console.ReadLine();
+
+                            dateBase.playerDate.LevelPlayer = rand.Next(1, 100);
+                            dateBase.playerDate.PlayerID = rand.Next(111111, 999999);
+                            dateBase.playerDate.PlayerIndex = rand.Next(1, 100);
+
                             dateBase.AddPlayer();
                             Console.WriteLine("Выберите команду");
                             break;
@@ -165,6 +162,7 @@ namespace OOPThird3
                             break;
                     }
             }
+
         }
     }
 
@@ -176,4 +174,5 @@ namespace OOPThird3
         UnbanPlayer = 4,
         DisplayPlayer = 5
     }
+
 }
